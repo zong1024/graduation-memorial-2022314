@@ -159,6 +159,7 @@ function App() {
         ) : (
           <SeasonHome
             introComplete={introComplete}
+            activeSection={route.section}
             onOpenQuotes={(trigger) => {
               quoteTriggerRef.current = trigger
               setShowQuotes(true)

@@ -162,7 +162,7 @@ export function SiteChrome({ currentView, currentSection, onNavigate }: SiteChro
   }
 
   return (
-    <header className="site-chrome" ref={rootRef}>
+    <header className="site-chrome" ref={rootRef} data-view={currentView}>
       <a className="skip-link" href="#main-content" onClick={handleSkipToMain}>跳到主要内容</a>
       <button className="site-mark" type="button" onClick={() => onNavigate('top')} aria-label="返回首页">
         <span>909</span>
