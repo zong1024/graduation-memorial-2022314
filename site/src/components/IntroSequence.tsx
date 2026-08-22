@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 
-import { shouldPlayIntro } from '../introState'
+import { markIntroSeen, shouldPlayIntro } from '../introState'
 import { gsap, useGSAP } from '../motion'
 
 type IntroSequenceProps = {
@@ -12,7 +12,8 @@ export function IntroSequence({ onComplete }: IntroSequenceProps) {
   const [visible, setVisible] = useState(shouldPlayIntro)
 
   useEffect(() => {
-    if (!visible) onComplete()
+    if (visible) markIntroSeen()
+    else onComplete()
   }, [onComplete, visible])
 
   useGSAP(
@@ -27,7 +28,7 @@ export function IntroSequence({ onComplete }: IntroSequenceProps) {
         setVisible(false)
       }
       const finish = contextSafe ? contextSafe(complete) : complete
-      const hardStop = window.setTimeout(finish, 900)
+      const hardStop = window.setTimeout(finish, 720)
       const bars = root.querySelectorAll('.intro-sequence__bar')
       const mark = root.querySelector('.intro-sequence__mark')
       const timeline = gsap.timeline({
@@ -36,10 +37,10 @@ export function IntroSequence({ onComplete }: IntroSequenceProps) {
       })
 
       timeline
-        .fromTo(bars, { scaleX: 0 }, { scaleX: 1, duration: 0.28, stagger: 0.04 })
-        .fromTo(mark, { yPercent: 115 }, { yPercent: 0, duration: 0.28 }, '<0.08')
-        .to(mark, { yPercent: -115, duration: 0.18 }, '+=0.12')
-        .to(root, { yPercent: -100, duration: 0.36 }, '<')
+        .fromTo(bars, { scaleX: 0 }, { scaleX: 1, duration: 0.2, stagger: 0.03 })
+        .fromTo(mark, { yPercent: 115 }, { yPercent: 0, duration: 0.2 }, '<0.06')
+        .to(mark, { yPercent: -115, duration: 0.14 }, '+=0.08')
+        .to(root, { yPercent: -100, duration: 0.26 }, '<')
 
       const finishOnIntent = () => finish()
       window.addEventListener('pointerdown', finishOnIntent, { passive: true, once: true })

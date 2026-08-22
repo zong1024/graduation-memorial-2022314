@@ -122,15 +122,13 @@ export function SiteChrome({ currentView, currentSection, onNavigate }: SiteChro
       const mm = gsap.matchMedia()
 
       mm.add(motionQueries.allowMotion, () => {
-        const timeline = gsap.timeline({ defaults: { ease: 'power4.out' } })
-        timeline
-          .fromTo('.menu-panel__wash', { scaleY: 0 }, { scaleY: 1, duration: 0.5, stagger: 0.06 })
-          .fromTo(
-            '.menu-panel__item, .menu-panel__footer',
-            { yPercent: 45, opacity: 0 },
-            { yPercent: 0, opacity: 1, duration: 0.55, stagger: 0.055 },
-            '-=0.24',
-          )
+        const timeline = gsap.timeline({ defaults: { ease: 'power3.out' } })
+        timeline.fromTo(
+          '.menu-panel__item, .menu-panel__footer',
+          { y: 12, opacity: 0.35 },
+          { y: 0, opacity: 1, duration: 0.28, stagger: 0.025 },
+          0,
+        )
         return () => timeline.kill()
       })
 
@@ -222,6 +220,9 @@ export function SiteChrome({ currentView, currentSection, onNavigate }: SiteChro
                   : currentView === 'home' && currentSection === item.target}
                 key={item.target}
                 type="button"
+                aria-current={(item.target === 'gallery'
+                  ? currentView === 'gallery'
+                  : currentView === 'home' && currentSection === item.target) ? 'page' : undefined}
                 onClick={() => handleNavigate(item.target)}
               >
                 <span>{item.eyebrow}</span>

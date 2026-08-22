@@ -112,6 +112,26 @@ if (!('ResizeObserver' in window)) {
   })
 }
 
+if (!('IntersectionObserver' in window)) {
+  class TestIntersectionObserver implements IntersectionObserver {
+    readonly root = null
+    readonly rootMargin = '0px'
+    readonly scrollMargin = '0px'
+    readonly thresholds = [0]
+
+    disconnect() {}
+    observe() {}
+    takeRecords() { return [] }
+    unobserve() {}
+  }
+
+  Object.defineProperty(window, 'IntersectionObserver', {
+    configurable: true,
+    writable: true,
+    value: TestIntersectionObserver,
+  })
+}
+
 if (!HTMLImageElement.prototype.decode) {
   HTMLImageElement.prototype.decode = () => Promise.resolve()
 }

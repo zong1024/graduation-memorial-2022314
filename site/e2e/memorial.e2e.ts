@@ -288,19 +288,14 @@ test('mobile hero transforms with scroll without creating a pin spacer @mobile-o
   await expect(page.locator('.pin-spacer')).toHaveCount(0)
 })
 
-test('intro replays after a full reload even with the legacy session marker', async ({ page }) => {
-  await page.addInitScript(() => {
-    window.sessionStorage.setItem('909:intro:season-v1', 'seen')
-  })
-
+test('intro plays once per tab session', async ({ page }) => {
   await page.goto('/', { waitUntil: 'domcontentloaded' })
   const intro = page.locator('.intro-sequence')
   await expect(intro).toBeVisible()
   await expect(intro).toHaveCount(0, { timeout: 1_200 })
 
   await page.reload({ waitUntil: 'domcontentloaded' })
-  await expect(intro).toBeVisible()
-  await expect(intro).toHaveCount(0, { timeout: 1_200 })
+  await expect(intro).toHaveCount(0)
 })
 
 test('intro has no console errors or missing GSAP target warning @mobile-only', async ({ page }) => {
@@ -327,8 +322,7 @@ test('intro has no console errors or missing GSAP target warning @mobile-only', 
   expect(pageErrors).toEqual([])
 
   await page.reload({ waitUntil: 'domcontentloaded' })
-  await expect(intro).toBeVisible()
-  await expect(intro).toHaveCount(0, { timeout: 1_200 })
+  await expect(intro).toHaveCount(0)
   expect(consoleProblems).toEqual([])
   expect(pageErrors).toEqual([])
 })
@@ -351,10 +345,10 @@ test('wide coarse touch never pins the hero or MemoryRun @wide-touch', async ({ 
   await expect(page.locator('.pin-spacer')).toHaveCount(0)
 })
 
-test('desktop resize removes and recreates pins without hiding the mobile story @desktop-only', async ({ page }) => {
+test('desktop resize keeps native scroll and all story chapters visible @desktop-only', async ({ page }) => {
   await page.setViewportSize({ width: 1000, height: 800 })
   await openHome(page)
-  await expect.poll(() => page.locator('.memory-run > .pin-spacer').count()).toBe(1)
+  await expect(page.locator('.pin-spacer')).toHaveCount(0)
 
   await page.setViewportSize({ width: 800, height: 800 })
   await expect(page.locator('.pin-spacer')).toHaveCount(0)
@@ -368,14 +362,15 @@ test('desktop resize removes and recreates pins without hiding the mobile story 
   ])
 
   await page.setViewportSize({ width: 1000, height: 800 })
-  await expect.poll(() => page.locator('.memory-run > .pin-spacer').count()).toBe(1)
+  await expect(page.locator('.pin-spacer')).toHaveCount(0)
+  await expect(page.locator('.memory-scene')).toHaveCount(3)
 })
 
-test('runtime reduced-motion change clears pins and hidden animation state @desktop-only', async ({ page }) => {
+test('runtime reduced-motion change keeps native scroll and visible content @desktop-only', async ({ page }) => {
   await openHome(page)
   await page.locator('.manifesto').scrollIntoViewIfNeeded()
   await delay(60)
-  await expect.poll(() => page.locator('.pin-spacer').count()).toBeGreaterThan(0)
+  await expect(page.locator('.pin-spacer')).toHaveCount(0)
 
   await page.emulateMedia({ reducedMotion: 'reduce' })
   await expect.poll(() => page.evaluate(() => window.matchMedia('(prefers-reduced-motion: reduce)').matches)).toBe(true)
@@ -386,7 +381,8 @@ test('runtime reduced-motion change clears pins and hidden animation state @desk
   }))).toBe(true)
 
   await page.emulateMedia({ reducedMotion: 'no-preference' })
-  await expect.poll(() => page.locator('.memory-run > .pin-spacer').count()).toBe(1)
+  await expect(page.locator('.pin-spacer')).toHaveCount(0)
+  await expect(page.locator('.memory-index__item')).toHaveCount(12)
 })
 
 test('short landscape ending keeps actions clear of the title @mobile-only', async ({ page }) => {

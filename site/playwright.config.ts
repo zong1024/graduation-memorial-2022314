@@ -18,6 +18,7 @@ export default defineConfig({
   },
   use: {
     baseURL: 'http://127.0.0.1:4173',
+    channel: 'chrome',
     locale: 'zh-CN',
     colorScheme: 'light',
     screenshot: 'off',

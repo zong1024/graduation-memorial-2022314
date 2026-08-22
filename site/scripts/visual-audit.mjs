@@ -23,11 +23,10 @@ const homepageStops = [
   ['hero', '#top'],
   ['manifesto', '.manifesto'],
   ['story', '#story'],
-  ['track-inside', '.track-panel--inside'],
-  ['track-outside', '.track-panel--outside'],
+  ['campus-split', '.campus-split'],
   ['quotes', '#quotes'],
   ['photos', '#photos'],
-  ['ending', '#ending'],
+  ['ending', '.season-ending'],
 ]
 
 const sleep = (milliseconds) => new Promise((resolve) => setTimeout(resolve, milliseconds))
@@ -162,7 +161,10 @@ async function screenshotStop(page, profileName, stopName, selector, findings) {
 }
 
 await fs.mkdir(outputDir, { recursive: true })
-const browser = await chromium.launch({ headless: true })
+const browser = await chromium.launch({
+  headless: true,
+  executablePath: process.env.PLAYWRIGHT_CHROME_PATH ?? 'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe',
+})
 const report = {}
 
 try {
