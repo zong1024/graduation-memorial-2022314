@@ -1,6 +1,8 @@
 # 909「青春赛季」
 
-深圳市龙华区高峰学校 2025 届 909 班毕业纪念站。项目使用 React、TypeScript、Vite 与 GSAP，包含滚动叙事首页、103 条教师名言档案和 137 张照片图库。
+深圳市龙华区高峰学校 2025 届 909 班毕业纪念站。项目使用 React、TypeScript、Vite、Motion 与 GSAP，包含滚动叙事首页、103 条教师名言档案和 137 张照片图库。
+
+完整架构、内容维护、测试、Cloudflare 发布和故障排查说明见 [`../docs/HANDOFF.md`](../docs/HANDOFF.md)。
 
 ## 本地开发
 

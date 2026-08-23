@@ -6,6 +6,7 @@
 - 源码目录：`site/`
 - 源码仓库：GitHub
 - 部署方式：Cloudflare Pages
+- 详细交接文档：[`docs/HANDOFF.md`](docs/HANDOFF.md)
 
 ## 本地运行
 
