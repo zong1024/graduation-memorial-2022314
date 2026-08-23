@@ -40,7 +40,7 @@
 
 截至本文档日期，Pages 项目采用手动 Direct Upload，没有连接 Git 自动部署。推送 GitHub 不会自动更新线上站点，发布时必须额外上传 `site/dist/`。
 
-线上应用代码对应 `6209c3c`。后续只修改仓库文档时不需要重新部署站点；只要 `site/` 发生变化，就必须重新构建并 Direct Upload。仓库中没有 `.github` 工作流，也没有 Wrangler 配置文件。
+线上应用代码对应 `6209c3c`。后续只修改 README 或仓库文档时不需要重新部署站点；如果 `site/src/`、`site/public/`、`site/index.html`、依赖或构建配置发生变化，就必须重新构建并 Direct Upload。仓库中没有 `.github` 工作流，也没有 Wrangler 配置文件。
 
 生产站点最后一次发布后已经确认：
 
